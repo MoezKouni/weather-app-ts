@@ -9,12 +9,18 @@ export const getGeoLatLon = (city: string) => async (dispatch: any) => {
   try {
     const response = await geoServices.getGeoLocation(city);
 
-    dispatch(
-      getWeather({
-        lat: response.data[0].lat || undefined,
-        lon: response.data[0].lon || undefined,
-      })
-    );
+    if(response.data.length > 0){
+        dispatch(
+          getWeather({
+            lat: response.data[0].lat || undefined,
+            lon: response.data[0].lon || undefined,
+            name: response.data[0].name
+          })
+        );
+    } else {
+        dispatch({type: GET_LAT_LON_ERROR, payload: "ERRROOOR"});
+        console.log("EROR")
+    }
   } catch (error: any) {
     dispatch({
       type: GET_LAT_LON_ERROR,
