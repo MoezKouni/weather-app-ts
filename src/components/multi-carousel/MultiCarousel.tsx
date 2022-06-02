@@ -20,8 +20,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { RootState } from "../../reducer";
 
-export default function MultiCarousel() {
-  const [unit, setUnit] = useState("fahrenheit");
+export default function MultiCarousel({setUnit, unit}:{setUnit: (unit: string) => void, unit: string}) {
   const state = useSelector((state: RootState) => state.weather);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
