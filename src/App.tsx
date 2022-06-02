@@ -6,10 +6,12 @@ import MultiCarousel from "./components/multi-carousel/MultiCarousel";
 import { getGeoLatLon } from "./actions/geo.actions";
 import bgImage from "./assets/img/bg.webp";
 import ErrorBanner from "./components/banner/ErrorBanner";
+import { RootState } from "./reducer";
+import { Dispatch } from "redux";
 
 function App() {
-  const { error } = useSelector((state: any) => state.weather)
-  const dispatch = useDispatch<any>();
+  const { error } = useSelector((state: RootState) => state.weather)
+  const dispatch = useDispatch<Dispatch<any>>();
 
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     dispatch(getGeoLatLon(e.target.value));

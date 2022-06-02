@@ -1,4 +1,3 @@
-import { AnyAction } from "redux";
 import {
   GET_LAT_LON_ERROR,
   GET_LAT_LON_REQUEST,
@@ -8,22 +7,41 @@ import {
 } from "../actions/types";
 import { formatDate } from "../utils/dateTimeFormater";
 
-const initialState = {
+type Data = {
+  name?: string | undefined;
+  code?: string | undefined;
+  list: any[];
+};
+
+export type State = {
+  data: Data | null;
+  isLoading: boolean;
+  error: null | string;
+};
+
+export type Action = {
+  type: string;
+  payload: any;
+};
+
+type Item = { date: string; timestamps: any[] }[] | any[];
+
+const initialState: State = {
   data: null,
   isLoading: false,
   error: null,
 };
 
-const weatherReducer = (state: any = initialState, action: AnyAction) => {
+const weatherReducer = (state: any = initialState, action: Action) => {
   // group the response from the api by day
   const groupListByDay = (data: any) => {
-    let groupedByDay: { date: string; timestamps: any[] }[]|any[] = [];
+    let groupedByDay: Item = [];
 
     data.forEach((el: any) => {
       // format date and delete time
       const fullDate = formatDate(new Date(el.dt_txt));
-    //   const fullDate = new Date(el.dt_txt).toLocaleDateString();
-      const isExist = groupedByDay.find((day: any) => day.date === fullDate);
+      //   const fullDate = new Date(el.dt_txt).toLocaleDateString();
+      const isExist = groupedByDay.find((day: any) => day?.date === fullDate);
 
       if (isExist) {
         groupedByDay = groupedByDay.map((day: any) =>
@@ -38,9 +56,8 @@ const weatherReducer = (state: any = initialState, action: AnyAction) => {
 
     // re-order days so that today object will be the second
     groupedByDay.unshift(groupedByDay.pop());
-    return groupedByDay
+    return groupedByDay;
   };
-
 
   switch (action.type) {
     case GET_LAT_LON_REQUEST:

@@ -10,6 +10,7 @@ import {
 import moment from "moment";
 import { useCallback } from "react";
 import { useSelector } from "react-redux";
+import { RootState } from "../../reducer";
 
 type Props = {
   item: {
@@ -23,14 +24,14 @@ export default function CarouselItem({
   item: { date, timestamps },
   unit,
 }: Props) {
-  const { isLoading } = useSelector((state: any) => state.weather);
+  const { isLoading } = useSelector((state: RootState) => state.weather);
 
   const isItToday = useCallback(() => {
     const today = new Date().getDay();
     const dateDay = new Date(date).getDay();
 
     if (today === dateDay) {
-      return "2px solid orange";
+      return "2px solid white";
     } else {
       return "none";
     }
@@ -99,7 +100,6 @@ export default function CarouselItem({
                 src={`https://openweathermap.org/img/wn/${timestamp.weather[0].icon}.png`}
                 width="50px"
               />
-              {/* <Text>{unit !== "fahrenheit" ? `${convertTempToCelcius(timestamp.main.temp).toFixed(2)}°C` : `${timestamp.main.temp}°F`}</Text> */}
               <Text>{convertTemp(timestamp.main.temp)}</Text>
             </Stack>
           </GridItem>

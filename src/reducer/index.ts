@@ -1,4 +1,9 @@
 import { combineReducers } from "redux"
-import weatherReducer from "./weather.reducer";
+import store from "../store";
+import weatherReducer, { State } from "./weather.reducer";
 
-export default combineReducers({weather: weatherReducer})
+export type RootState = {
+    weather: State
+}
+
+export default combineReducers<RootState>({weather: weatherReducer})
